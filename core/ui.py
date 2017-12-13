@@ -37,7 +37,8 @@ def draw_settings(surface):
 
 
 class Button:
-    def __init__(self, text, size, pos, bg_color=pg.Color('red'), font_color=pg.Color('white'), font_size=16):
+    def __init__(self, text, size, pos,
+                 bg_color=pg.Color('red'), font_color=pg.Color('white'), font_size=16, anchor='topleft'):
         self.text = text
         self.size = size
         self.position = pos
@@ -45,9 +46,13 @@ class Button:
         self.background_color = bg_color
         self.font_color = font_color
         self.font_size = font_size
+        self.anchor = anchor
 
         self.surface = self.make()
-        self.rect = self.surface.get_rect(topleft=self.position)
+        if anchor == 'topleft':
+            self.rect = self.surface.get_rect(topleft=self.position)
+        elif anchor == 'topright':
+            self.rect = self.surface.get_rect(topright=self.position)
         self.callback = None
 
     def make(self):
@@ -65,6 +70,15 @@ class Button:
         surf.blit(tsurface, text_rect)
 
         return surf
+
+    def set_text(self, val):
+        self.text = val
+        self.surface = self.make()
+        if self.anchor == 'topleft':
+            self.rect = self.surface.get_rect(topleft=self.position)
+        elif self.anchor == 'topright':
+            self.rect = self.surface.get_rect(topright=self.position)
+
 
     def on_click(self, func):
         self.callback = func

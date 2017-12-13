@@ -110,7 +110,10 @@ class Graph:
 
     def add_agent(self, pos):
         walkable = [n.position for n in self.nodes if n.walkable]
-        node = [n for n in self.nodes if n.rect.collidepoint(pos)][-1]
+        try:
+            node = [n for n in self.nodes if n.rect.collidepoint(pos)][-1]
+        except IndexError:
+            return
 
         if node.position in walkable:
             self.agents.append(Agent(node.rect.center))
