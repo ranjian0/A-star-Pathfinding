@@ -1,3 +1,7 @@
+PATHFINDING DEMO
+
+![Alt text](/res/pathfinding.gif?raw=true "Demo")
+
 # Requirements
 
 1. python 3.5+
