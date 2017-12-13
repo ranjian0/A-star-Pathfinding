@@ -18,9 +18,20 @@ def draw_header(surface):
 
 def draw_instructions(surface):
     surf = pg.Surface((250, 250)).convert_alpha()
-    surf.fill((255, 255, 255))
-    rect = surf.get_rect(center = (400, 300))
+    surf.fill(BACKGROUND)
+    rect = surf.get_rect(center=(400, 300))
 
+    font_name = pg.font.match_font('arial')
+    font = pg.font.Font(font_name, 18)
+    font.set_bold(True)
+
+    for idx, line in enumerate(INSTRUCTIONS.split('\n')[1:]):
+        tsurface = font.render(line, True, pg.Color('yellow'))
+        text_rect = tsurface.get_rect()
+
+        fs = font.size(line)[1]
+        text_rect.topleft = (10, 10 + (idx * fs))
+        surf.blit(tsurface, text_rect)
 
     surface.blit(surf, rect)
     pg.draw.rect(surface, pg.Color('black'), rect, 5)
@@ -29,16 +40,15 @@ def draw_instructions(surface):
 def draw_settings(surface):
     surf = pg.Surface((250, 250)).convert_alpha()
     surf.fill((255, 100, 255))
-    rect = surf.get_rect(center = (400, 300))
-
+    rect = surf.get_rect(center=(400, 300))
 
     surface.blit(surf, rect)
     pg.draw.rect(surface, pg.Color('red'), rect, 5)
 
 
 class Button:
-    def __init__(self, text, size, pos,
-                 bg_color=pg.Color('red'), font_color=pg.Color('white'), font_size=16, anchor='topleft'):
+    def __init__(self, text, size, pos, bg_color=pg.Color('red'), font_color=pg.Color('white'), font_size=16,
+                 anchor='topleft'):
         self.text = text
         self.size = size
         self.position = pos
@@ -78,7 +88,6 @@ class Button:
             self.rect = self.surface.get_rect(topleft=self.position)
         elif self.anchor == 'topright':
             self.rect = self.surface.get_rect(topright=self.position)
-
 
     def on_click(self, func):
         self.callback = func
